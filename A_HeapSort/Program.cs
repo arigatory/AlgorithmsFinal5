@@ -1,7 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// https://contest.yandex.ru/contest/24810/run-report/68465706/
+
+/* 
+ * -- ПРИНЦИП РАБОТЫ --
+   Алгоритм полностью совпадает с тем, который описан в уроке:
+    1) Создадим пустую бинарную неубывающую кучу (min-heap).
+    2) Вставим в неё по одному все элементы массива, сохраняя свойства кучи. Так как нам нужна сортировка от меньшего к большему,
+        на вершине пирамиды должен оказаться самый маленький элемент. Если бы мы захотели реализовать сортировку 
+        по убыванию — на вершине был бы самый большой элемент.
+    3) Будем извлекать из неё наиболее приоритетные элементы (с самым маленьким значением), удаляя их из кучи.
+  
+ * -- ДОКАЗАТЕЛЬСТВО КОРРЕКТНОСТИ --
+    На каждом шаге мы извлекаем наиболее приоритетный элемент из кучи. 
+    Самый приоритетный элемент пирамиды находится на её вершине. 
+    Поэтому когда извлекаем и удаляем его из кучи, мы обрабатываем все элементы и выдаем их в отсортированном порядке.
+  
+ * -- ВРЕМЕННАЯ СЛОЖНОСТЬ --
+
+    Первый шаг — создание бинарной кучи. Сложность этой операции — O(1). Нам просто нужно выделить память под массив из n элементов.
+    Далее вставим nn элементов подряд в бинарную кучу.
+    Сложность этого этапа:
+    O(log1)+O(log2)+...+O(logn)
+    Считать точное значение этого выражения мы не будем, оценим его сложность сверху.
+    Для этого заменим каждое слагаемое тем, которое не меньше текущего, но удобнее в формуле.
+    O(logn)+O(logn)+...+O(logn)=O(nlogn)
+    Последним шагом извлекаем nn элементов. Сложность этой операции также не больше, чем O(nlogn).
+    O(logn)+...+O(log2)+O(log1)<O(logn)+...+O(logn)+O(logn)=O(nlogn)
+    Получим:
+    T=O(1)+O(nlogn)+O(nlogn)=O(nlogn)
+    Это сложность алгоритма пирамидальной сортировки, которая в худшем случае работает не дольше, чем за O(nlogn).
+
+
+ * -- ПРОСТРАНСТВЕННАЯ СЛОЖНОСТЬ --
+    Для описанной реализации алгоритма пирамидальной сортировки нужно выделить память под массив из n элементов. 
+    То есть потребуется O(n) дополнительной памяти. 
+ */
+
+using System;
 using System.IO;
-using System.Linq;
 
 namespace A_HeapSort
 {
@@ -83,11 +118,11 @@ namespace A_HeapSort
             {
                 if (_items[left] < _items[right])
                 {
-                    indexLargest = right;
+                    indexLargest = left;
                 }
                 else
                 {
-                    indexLargest = left;
+                    indexLargest = right;
                 }
             }
             else
@@ -95,9 +130,9 @@ namespace A_HeapSort
                 indexLargest = left;
             }
 
-            if (_items[index] < _items[indexLargest])
+            if (_items[index] > _items[indexLargest])
             {
-                var temp = (_items[indexLargest]);
+                var temp = _items[indexLargest];
                 _items[indexLargest] = _items[index];
                 _items[index] = temp;
                 SiftDown(indexLargest);
@@ -153,7 +188,7 @@ namespace A_HeapSort
             }
 
             var p = heap.GetMaxPriority();
-            
+
             while (p != null)
             {
                 _writer.WriteLine(p.Login);
@@ -178,14 +213,6 @@ namespace A_HeapSort
         private static int ReadInt()
         {
             return int.Parse(_reader.ReadLine());
-        }
-
-        private static List<int> ReadList()
-        {
-            return _reader.ReadLine()
-                .Split(new[] { ' ', '\t', }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToList();
         }
     }
 
