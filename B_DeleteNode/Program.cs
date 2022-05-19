@@ -6,7 +6,7 @@ namespace B_DeleteNode
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Solution.Test();
         }
     }
 }
