@@ -96,12 +96,17 @@ namespace A_HeapSort
             int parentIndex = index / 2;
             if (_items[parentIndex] > _items[index])
             {
-                var temp = _items[parentIndex];
-                _items[parentIndex] = _items[index];
-                _items[index] = temp;
+                Swap(index, parentIndex);
                 SiftUp(parentIndex);
             }
 
+        }
+
+        private void Swap(int index, int parentIndex)
+        {
+            var temp = _items[parentIndex];
+            _items[parentIndex] = _items[index];
+            _items[index] = temp;
         }
 
         private void SiftDown(int index)
@@ -132,9 +137,7 @@ namespace A_HeapSort
 
             if (_items[index] > _items[indexLargest])
             {
-                var temp = _items[indexLargest];
-                _items[indexLargest] = _items[index];
-                _items[index] = temp;
+                Swap(index, indexLargest);
                 SiftDown(indexLargest);
             }
         }

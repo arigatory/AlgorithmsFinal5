@@ -96,24 +96,6 @@ public class Solution
         }
     }
 
-    private static Node Insert(Node node, int key)
-    {
-        if (node == null)
-        {
-            return new Node(key);
-        }
-        if (key < node.Value)
-        {
-            node.Left = Insert(node.Left, key);
-        }
-        else
-        {
-            node.Right = Insert(node.Right, key);
-        }
-
-        return node;
-    }
-
     private static Node FindParent(Node root, int key)
     {
         if (root == null)
